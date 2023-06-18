@@ -15,3 +15,9 @@ ohdear
 devutils
 arc
 netlify
+pinata
+grafbase
+tailscale
+todoist
+screen-studio
+openverse
