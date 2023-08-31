@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { showHUD, ActionPanel, List, Action, popToRoot } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
 import { checkPagesInstalled } from "./index";
+import { runAppleScript } from "@raycast/utils";
 
 export default function Main() {
   const [templates, setTemplates] = useState<string[]>([] as string[]);

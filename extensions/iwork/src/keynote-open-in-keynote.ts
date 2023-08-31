@@ -1,4 +1,4 @@
-import { runAppleScript } from "run-applescript";
+import { runAppleScript } from "@raycast/utils";
 import { checkKeynoteInstalled } from "./index";
 
 export default async function Main() {

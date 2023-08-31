@@ -1,5 +1,5 @@
 import { showHUD, ActionPanel, List, Action, popToRoot, getPreferenceValues } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
+import { runAppleScript } from "@raycast/utils";
 import { checkKeynoteInstalled, resolveExportPath } from "./index";
 
 interface ExportArguments {

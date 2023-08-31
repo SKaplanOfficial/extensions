@@ -1,6 +1,6 @@
 import { Clipboard, showHUD } from "@raycast/api";
-import { runAppleScript } from "run-applescript";
 import { checkPagesInstalled } from "./index";
+import { runAppleScript } from "@raycast/utils";
 
 export default async function Main() {
   // Check for Pages app
