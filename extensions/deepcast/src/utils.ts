@@ -1,14 +1,15 @@
-import { getSelectedText, Clipboard, Toast, showToast, getPreferenceValues } from "@raycast/api";
-import got from "got";
+import {
+  getSelectedText,
+  Clipboard,
+  Toast,
+  showToast,
+  getPreferenceValues,
+  launchCommand,
+  LaunchType,
+  closeMainWindow,
+} from "@raycast/api";
+import got, { HTTPError, RequestError } from "got";
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
-
-interface Preferences {
-  key: string;
-}
-
-export function getPreferences() {
-  return getPreferenceValues<Preferences>();
-}
 
 function isPro(key: string) {
   return !key.endsWith(":fx");
@@ -17,8 +18,9 @@ function isPro(key: string) {
 const DEEPL_QUOTA_EXCEEDED = 456;
 
 function gotErrorToString(error: unknown) {
+  console.log(error);
   // response received
-  if (error instanceof got.HTTPError) {
+  if (error instanceof HTTPError) {
     const { statusCode } = error.response;
     if (statusCode === StatusCodes.FORBIDDEN) return "Invalid DeepL API key";
     if (statusCode === StatusCodes.TOO_MANY_REQUESTS) return "Too many requests to DeepL API";
@@ -30,25 +32,54 @@ function gotErrorToString(error: unknown) {
   }
 
   // request failed
-  if (error instanceof got.RequestError)
+  if (error instanceof RequestError) {
     return `Something went wrong when sending a request to the DeepL API. If you’re having issues, open an issue on GitHub and include following text: ${error.code} ${error.message}`;
-
+  }
   return "Unknown error";
+}
+
+export async function getSelection() {
+  try {
+    return await getSelectedText();
+  } catch (error) {
+    return "";
+  }
+}
+
+// Get the text, matching preferences.
+// If selected text is the preferred source, it will try selected text but fallback to clipboard.
+// If clipboard is the preferred source, it will try clipboard but fallback to selected text.
+export async function readContent() {
+  const preferredSource = getPreferenceValues<Preferences>().source;
+  const clipboard = await Clipboard.readText();
+  const selected = await getSelection();
+
+  if (preferredSource === "clipboard") {
+    return clipboard || selected;
+  } else {
+    return selected || clipboard;
+  }
 }
 
 export async function sendTranslateRequest({
   text: initialText,
   sourceLanguage,
   targetLanguage,
+  onTranslateAction,
 }: {
   text?: string;
   sourceLanguage?: SourceLanguage;
   targetLanguage: TargetLanguage;
+  onTranslateAction?: Preferences["onTranslateAction"] | "none";
 }) {
   try {
-    const text = initialText || (await getSelectedText());
+    const prefs = getPreferenceValues<Preferences>();
+    const { key } = prefs;
+    onTranslateAction ??= prefs.onTranslateAction;
 
-    const { key } = getPreferences();
+    const text = initialText || (await readContent());
+
+    const toast = await showToast(Toast.Style.Animated, "Fetching translation...");
 
     try {
       const {
@@ -65,8 +96,37 @@ export async function sendTranslateRequest({
           },
         })
         .json<{ translations: { text: string; detected_source_language: SourceLanguage }[] }>();
-      await Clipboard.copy(translation);
-      await showToast(Toast.Style.Success, "The translation was copied to your clipboard.");
+      switch (onTranslateAction) {
+        case "clipboard":
+          await Clipboard.copy(translation);
+          await showToast(Toast.Style.Success, "The translation was copied to your clipboard.");
+          break;
+        case "view":
+          try {
+            await launchCommand({
+              name: "index",
+              type: LaunchType.UserInitiated,
+              context: {
+                translation,
+                sourceLanguage: detectedSourceLanguage,
+              },
+            });
+          } catch {
+            await showToast({
+              style: Toast.Style.Failure,
+              title: "Failed to display translated text.",
+              message: "The main Translate command must be enabled.",
+            });
+          }
+          break;
+        case "paste":
+          await closeMainWindow();
+          await Clipboard.paste(translation);
+          break;
+        default:
+          toast.hide();
+          break;
+      }
       return { translation, detectedSourceLanguage };
     } catch (error) {
       await showToast(Toast.Style.Failure, "Something went wrong", gotErrorToString(error));
@@ -76,8 +136,8 @@ export async function sendTranslateRequest({
   }
 }
 
-export async function translate(target: TargetLanguage) {
-  await sendTranslateRequest({ targetLanguage: target });
+export async function translate(target: TargetLanguage, text?: string) {
+  await sendTranslateRequest({ targetLanguage: target, text: text });
 }
 
 export const source_languages = {

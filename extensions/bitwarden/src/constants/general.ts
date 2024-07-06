@@ -15,11 +15,16 @@ export const LOCAL_STORAGE_KEY = {
   SERVER_URL: "cliServer",
   LAST_ACTIVITY_TIME: "lastActivityTime",
   VAULT_LOCK_REASON: "vaultLockReason",
+  VAULT_FAVORITE_ORDER: "vaultFavoriteOrder",
+  VAULT_LAST_STATUS: "lastVaultStatus",
 } as const;
 
 export const VAULT_LOCK_MESSAGES = {
   TIMEOUT: "Vault timed out due to inactivity",
   MANUAL: "Manually locked by the user",
+  SYSTEM_LOCK: "Screen was locked",
+  SYSTEM_SLEEP: "System went to sleep",
+  CLI_UPDATED: "Bitwarden has been updated. Please login again.",
 } as const;
 
 export const SHORTCUT_KEY_SEQUENCE: Keyboard.Shortcut["key"][] = [
@@ -32,7 +37,6 @@ export const SHORTCUT_KEY_SEQUENCE: Keyboard.Shortcut["key"][] = [
   "7",
   "8",
   "9",
-  "a",
   "b",
   "c",
   "d",
@@ -73,6 +77,7 @@ export const CACHE_KEYS = {
   IV: "iv",
   VAULT: "vault",
   CURRENT_FOLDER_ID: "currentFolderId",
+  SEND_TYPE_FILTER: "sendTypeFilter",
 } as const;
 
 export const ITEM_TYPE_TO_ICON_MAP: Record<ItemType, Icon> = {

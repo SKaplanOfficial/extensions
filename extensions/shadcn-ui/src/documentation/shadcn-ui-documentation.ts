@@ -3,9 +3,10 @@ Documentation pulled manually from https://github.com/shadcn/ui/tree/main/apps/w
 For now we upload this file manually and update the date here
  */
 
-const lastUpdated = "2023-06-06T20:16:30.458Z";
+const lastUpdated = "2024-01-15T12:03:16.024Z";
 
 const documentationBase = "https://ui.shadcn.com/docs";
+const documentationInstallation = `${documentationBase}/installation`;
 
 export default [
   {
@@ -22,9 +23,19 @@ export default [
         path: `${documentationBase}/installation`,
       },
       {
+        doc: "components.json",
+        name: "components.json",
+        path: `${documentationBase}/components-json`,
+      },
+      {
         doc: "theming",
         name: "Theming",
         path: `${documentationBase}/theming`,
+      },
+      {
+        doc: "dark-mode",
+        name: "Dark Mode",
+        path: `${documentationBase}/dark-mode`,
       },
       {
         doc: "cli",
@@ -36,25 +47,85 @@ export default [
         name: "Typography",
         path: `${documentationBase}/components/typography`,
       },
-    ],
-  },
-  {
-    name: "Community",
-    pages: [
       {
         doc: "figma",
         name: "Figma",
         path: `${documentationBase}/figma`,
       },
+      {
+        doc: "changelog",
+        name: "Changelog",
+        path: `${documentationBase}/changelog`,
+      },
+      {
+        doc: "about",
+        name: "About",
+        path: `${documentationBase}/about`,
+      },
     ],
   },
   {
-    name: "Forms",
+    name: "Installation",
     pages: [
       {
-        doc: "react-hook-form",
-        name: "React Hook Form",
-        path: `${documentationBase}/forms/react-hook-form`,
+        doc: "next",
+        name: "Next.js",
+        path: `${documentationInstallation}/next`,
+      },
+      {
+        doc: "vite",
+        name: "Vite",
+        path: `${documentationInstallation}/vite`,
+      },
+      {
+        doc: "remix",
+        name: "Remix",
+        path: `${documentationInstallation}/remix`,
+      },
+      {
+        doc: "gatsby",
+        name: "Gatsby",
+        path: `${documentationInstallation}/gatsby`,
+      },
+      {
+        doc: "astro",
+        name: "Astro",
+        path: `${documentationInstallation}/astro`,
+      },
+      {
+        doc: "laravel",
+        name: "Laravel",
+        path: `${documentationInstallation}/laravel`,
+      },
+      {
+        doc: "manual",
+        name: "Manual",
+        path: `${documentationInstallation}/manual`,
+      },
+    ],
+  },
+  {
+    name: "Dark Mode",
+    pages: [
+      {
+        doc: "next",
+        name: "Next.js",
+        path: `${documentationBase}/dark-mode/next`,
+      },
+      {
+        doc: "vite",
+        name: "Vite",
+        path: `${documentationBase}/dark-mode/vite`,
+      },
+      {
+        doc: "astro",
+        name: "Astro",
+        path: `${documentationBase}/dark-mode/astro`,
+      },
+      {
+        doc: "remix",
+        name: "Remix",
+        path: `${documentationBase}/dark-mode/remix`,
       },
     ],
   },

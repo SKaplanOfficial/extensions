@@ -1,9 +1,9 @@
-import { Color, getPreferenceValues, LaunchProps, List, showToast, Toast } from "@raycast/api";
+import { Action, ActionPanel, Color, getPreferenceValues, LaunchProps, List, showToast, Toast } from "@raycast/api";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useEffect, useState } from "react";
 import { Note } from "./bear-db";
 import { useBearDb } from "./hooks";
-import NoteActions from "./note-actions";
+import NoteActions, { createBasicNote } from "./note-actions";
 import TagsDropdown from "./search-dropdown";
 
 interface SearchNotesArguments {
@@ -26,7 +26,7 @@ export default function SearchNotes(props: LaunchProps<{ arguments: SearchNotesA
     showToast(Toast.Style.Failure, "Something went wrong", error.message);
   }
 
-  const showDetail = (notes ?? []).length > 0 && getPreferenceValues().showPreviewInListView;
+  const showDetail = (notes ?? []).length > 0 && getPreferenceValues<Preferences>().showPreviewInListView;
   const handleTagChange = (tag: string | null) => setSelectedTag(tag);
 
   return (
@@ -65,6 +65,21 @@ export default function SearchNotes(props: LaunchProps<{ arguments: SearchNotesA
           }
         />
       ))}
+      {notes?.length === 0 && (
+        <List.Item
+          title={searchQuery}
+          icon={{ source: "command-icon.png" }}
+          actions={
+            <ActionPanel>
+              <Action
+                title="Create New Note"
+                shortcut={{ modifiers: ["cmd"], key: "n" }}
+                onAction={() => createBasicNote(searchQuery)}
+              />
+            </ActionPanel>
+          }
+        />
+      )}
     </List>
   );
 }

@@ -11,7 +11,20 @@ const userDataDirectoryPath = () => {
 
 const getProfileName = (userDirectoryPath: string) => {
   const profiles = fs.readdirSync(userDirectoryPath);
-  return profiles.filter((profile) => profile.endsWith(".default-release"))[0];
+
+  const releaseProfile = profiles.filter((profile) => profile.endsWith(".default-release"))[0];
+  const nightlyProfile = profiles.filter((profile) => profile.endsWith(".default-nightly"))[0];
+  const esrProfile = profiles.filter((profile) => profile.endsWith(".default-esr"))[0];
+
+  if (releaseProfile) {
+    return releaseProfile;
+  } else if (nightlyProfile) {
+    return nightlyProfile;
+  } else if (esrProfile) {
+    return esrProfile;
+  } else {
+    return "";
+  }
 };
 
 export const getHistoryDbPath = (): string => {

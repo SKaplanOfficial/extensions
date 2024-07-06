@@ -1,8 +1,8 @@
-import { runAppleScript } from "run-applescript";
+import { runAppleScript } from "@raycast/utils";
 
 import { Account, Mailbox } from "../types";
 import { Cache } from "../utils/cache";
-import { getMailboxIcon } from "../utils/mailbox";
+import { getMailboxIcon, sortMailboxes } from "../utils/mailbox";
 
 export const getAccounts = async (): Promise<Account[] | undefined> => {
   const script = `
@@ -17,6 +17,7 @@ export const getAccounts = async (): Promise<Account[] | undefined> => {
           set accUser to user name of mailAcc
           set fullName to full name of mailAcc
           set accEmail to email addresses of mailAcc
+          set {TID, AppleScript's text item delimiters} to {AppleScript's text item delimiters, " | "}
           try
             set mainMailbox to (first mailbox of mailAcc whose name is "All Mail")
             set numUnread to unread count of mainMailbox
@@ -90,13 +91,9 @@ export const getMailboxes = async (accountName: string): Promise<Mailbox[]> => {
     const mailboxes: Mailbox[] = response
       .map((line: string) => {
         const [name, unreadCount] = line.split(",");
-        return { name, unreadCount: parseInt(unreadCount) };
+        return { name, icon: getMailboxIcon(name), unreadCount: parseInt(unreadCount) };
       })
-      .sort((x, y) => y.unreadCount - x.unreadCount);
-
-    for (const mailbox of mailboxes) {
-      mailbox.icon = getMailboxIcon(mailbox.name);
-    }
+      .sort(sortMailboxes);
 
     return mailboxes;
   } catch (error) {

@@ -21,6 +21,7 @@ export enum PrimaryAction {
   QuickLook = "quicklook",
   OpenInObsidian = "obsidian",
   OpenInObsidianNewPane = "newpane",
+  OpenInDefaultApp = "defaultapp",
 }
 
 export const APPLICATION_UUID = "49acc9ee-69a0-4419-9aad-5c2689ff0119";
@@ -128,5 +129,5 @@ export const IMAGE_SIZE_MAPPING: Map<string, number> = new Map([
 
 export const ObsidianIcon: Image = {
   source: "obsidian_icon.svg",
-  tintColor: Color.PrimaryText,
+  tintColor: { dark: "#E6E6E6", light: "#262626", adjustContrast: false },
 };

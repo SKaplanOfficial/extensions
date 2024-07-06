@@ -19,6 +19,7 @@
 - [Publish an Extension](basics/publish-an-extension.md)
 - [Debug an Extension](basics/debug-an-extension.md)
 - [Install an Extension](basics/install-an-extension.md)
+- [Review an Extension in a Pull Request](basics/review-pullrequest.md)
 
 ## Teams
 
@@ -53,7 +54,9 @@
 ## API Reference
 
 - [AI](api-reference/ai.md)
+- [Browser Extension](api-reference/browser-extension.md)
 - [Cache](api-reference/cache.md)
+- [Command](api-reference/command.md)
 - [Clipboard](api-reference/clipboard.md)
 - [Environment](api-reference/environment.md)
 - [Feedback](api-reference/feedback/README.md)
@@ -76,7 +79,8 @@
   - [Colors](api-reference/user-interface/colors.md)
   - [Icons & Images](api-reference/user-interface/icons-and-images.md)
   - [Navigation](api-reference/user-interface/navigation.md)
-- [Window & Search Bar](api-reference/window-and-search-bar.md)
+- [Raycast Window & Search Bar](api-reference/window-and-search-bar.md)
+- [Window Management](api-reference/window-management.md)
 
 ---
 
@@ -85,6 +89,9 @@
   - [v1.28.0](migration/v1.28.0.md)
   - [v1.31.0](migration/v1.31.0.md)
   - [v1.37.0](migration/v1.37.0.md)
+  - [v1.42.0](migration/v1.42.0.md)
   - [v1.48.8](migration/v1.48.8.md)
   - [v1.50.0](migration/v1.50.0.md)
+  - [v1.51.0](migration/v1.51.0.md)
+  - [v1.59.0](migration/v1.59.0.md)
 - [FAQ](faq.md)

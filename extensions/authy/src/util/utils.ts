@@ -12,12 +12,12 @@ export function genTOTP(seed: string): string[] {
   ];
 }
 
-export function decryptSeed(encryptedSeed: string, salt: string, password: string) {
-  let decrypted = decryptAES(salt, password, encryptedSeed, false);
+export function decryptSeed(encryptedSeed: string, salt: string, password: string, iterations: number) {
+  let decrypted = decryptAES(salt, password, encryptedSeed, false, iterations);
   if (decrypted === null || !isBase32(decrypted)) {
-    decrypted = decryptAES(salt, password, encryptedSeed, true);
+    decrypted = decryptAES(salt, password, encryptedSeed, true, iterations);
   }
-  return decrypted;
+  return decrypted !== null && isBase32(decrypted) ? decrypted : null;
 }
 
 function isBase32(value: string): boolean {
@@ -56,9 +56,9 @@ function decryptAESWithKey(key: string, value: string) {
   return decipher.finish() ? decipher.output.data : null;
 }
 
-function decryptAES(salt: string, password: string, value: string, withoutEncoding: boolean) {
+function decryptAES(salt: string, password: string, value: string, withoutEncoding: boolean, iterations: number) {
   const pbkdf2Key = generatePBKDF2Key(password, salt, {
-    iterations: 1000,
+    iterations,
     keySize: 32, // Originally it was denoted in bits, changed to bytes
     decodeSalt: false,
     withoutEncoding,
