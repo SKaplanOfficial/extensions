@@ -1,5 +1,19 @@
 # Google Gemini Changelog
 
+## [Gemini Flash 2.0 and More Customization] - 2025-01-02
+
+Features:
+
+- 🆕 Add new Models for Gemini 2.0 Flash Experimental, Gemini Experimental 1206, Gemini 2.0 Flash Thinking Experimental and LearnLM 1.5 Pro Experimental
+- 🧹 Allow prompts to be customizable in Raycast Settings
+- 🗯️ Add ability to add a default Translate language, and also ability to override with a parameter
+
+## [Add Translate Command] - 2024-09-02
+
+More Features:
+
+- 🔄 Translate Selected Text: Translate the selected text to any language!
+
 ## [Gemini 1.5 Update] - 2023-05-25
 
 Experience speed and performance together like never before with the brand new Gemini 1.5 Flash and Gemini 1.5 Pro models. Powered by [Gemini AI v2](https://github.com/evanzhoudev/gemini-ai), Gemini for Raycast is more powerful than ever before.
